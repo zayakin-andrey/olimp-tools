@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class ArrayUtils {
 
-    public static <T extends Comparable<T>> T maxElement(List<T> list) {
+    public static <T extends Comparable<T>> T max(List<T> list) {
         if (list.isEmpty()) {
             throw new IllegalArgumentException("list can not be empty");
         }
@@ -92,5 +92,19 @@ public class ArrayUtils {
 
     public static String reverse(String s) {
         return new StringBuilder(s).reverse().toString();
+    }
+
+    public static int sum(int[] cost) {
+        int result = 0;
+        for (int x : cost)
+            result += x;
+        return result;
+    }
+
+    public static long sum(long[] cost) {
+        int result = 0;
+        for (long x : cost)
+            result += x;
+        return result;
     }
 }

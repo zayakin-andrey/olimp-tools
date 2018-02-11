@@ -32,7 +32,11 @@ public class SuffixAutomata {
         return sz;
     }
 
-    public Iterable<Edge> getEdges(int source) {
+    int[] getEdges(int source) {
+        return next[source];
+    }
+
+    public Iterable<Edge> iterate(int source) {
         return new Iterable<Edge>() {
             int ptr = 0;
             @Override
