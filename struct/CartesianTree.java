@@ -107,7 +107,7 @@ public class CartesianTree {
 
         public Node(Updatable data, int key) {
             this.key = key;
-            this.priority = PRIORITY_GENERATOR.nextInt() % 1000;
+            this.priority = PRIORITY_GENERATOR.nextInt();
             this.data = data;
         }
 
