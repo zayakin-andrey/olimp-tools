@@ -1,30 +1,30 @@
 package lib.struct;
 
 public class FenwickTree {
-    int[] data;
+    long[] data;
 
     public FenwickTree(int n) {
-        data = new int[n];
+        data = new long[n];
     }
 
-    public void set(int pos, int value) {
-        int currentValue = getValue(pos);
-        int delta = value - currentValue;
+    public void set(int pos, long value) {
+        long currentValue = getValue(pos);
+        long delta = value - currentValue;
         for (; pos < data.length; pos |= pos + 1) {
             data[pos] += delta;
         }
     }
 
-    public int getSum(int l, int r) {
+    public long get(int l, int r) {
         return get(r) - get(l - 1);
     }
 
-    private int getValue(int pos) {
+    private long getValue(int pos) {
         return get(pos) - get(pos - 1);
     }
 
-    private int get(int pos) {
-        int result = 0;
+    private long get(int pos) {
+        long result = 0;
         for (; pos >= 0; pos = (pos & (pos + 1)) - 1) {
             result += data[pos];
         }

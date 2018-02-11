@@ -1,11 +1,7 @@
 package lib.math;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
-
-import static java.lang.Math.abs;
 
 /**
  * Created by hydra on 08.04.17.
@@ -63,5 +59,4 @@ public class Factorization {
             this.power = power;
         }
     }
-
 }
