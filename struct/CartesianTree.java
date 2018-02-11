@@ -16,11 +16,9 @@ public abstract class CartesianTree<DATA> {
 
     public DATA calculateData(int key) {
         SplitPair split = split(root, key);
-        Updatable<DATA> result = split.left == null ? null : split.left.getUpdatable();
-        DATA answer = (result == null ? empty() : result.getData());
-        answer = clone(answer);
+        DATA result = split.left == null ? empty() : clone(split.left.getUpdatable().getData());
         root = merge(split.left, split.right);
-        return answer;
+        return result;
     }
 
     private SplitPair split(Node root, int key) {
