@@ -2,23 +2,28 @@ package lib.struct;
 
 import java.util.Random;
 
-public class CartesianTree {
+public abstract class CartesianTree<DATA> {
     private final static Random PRIORITY_GENERATOR = new Random(2517);
 
-    Node root;
+    private Node root;
 
-    public void insert(Node inserting) {
-        root = insert(root, inserting);
+    protected abstract DATA empty();
+    protected abstract DATA clone(DATA instance);
+
+    public void insert(Updatable<DATA> data, int key) {
+        root = insert(root, new Node(data, key));
     }
 
-    public long getFunction(int key) {
+    public DATA calculateData(int key) {
         SplitPair split = split(root, key);
-        long result = (split.left == null ? 0 : split.left.data.getFunction());
+        Updatable<DATA> result = split.left == null ? null : split.left.getUpdatable();
+        DATA answer = (result == null ? empty() : result.getData());
+        answer = clone(answer);
         root = merge(split.left, split.right);
-        return result;
+        return answer;
     }
 
-    private static SplitPair split(Node root, int key) {
+    private SplitPair split(Node root, int key) {
         if (root == null) {
             return new SplitPair();
         }
@@ -37,7 +42,7 @@ public class CartesianTree {
         return split;
     }
 
-    private static Node insert(Node root, Node inserting) {
+    private Node insert(Node root, Node inserting) {
         if (root == null) {
             return inserting;
         }
@@ -60,7 +65,7 @@ public class CartesianTree {
         return root;
     }
 
-    private static Node merge(Node left, Node right) {
+    private Node merge(Node left, Node right) {
         if (left == null) {
             return right;
         }
@@ -77,7 +82,7 @@ public class CartesianTree {
         return right;
     }
 
-    private static Node erase(Node root, int key) {
+    private Node erase(Node root, int key) {
         if (root.key == key) {
             return merge(root.left, root.right);
         }
@@ -86,47 +91,50 @@ public class CartesianTree {
         return result;
     }
 
-    private static void update(Node result) {
+    private void update(Node result) {
         if (result == null) {
             return;
         }
         result.data.update(result.getLeftUpdatable(), result.getRightUpdatable());
     }
 
-    private static class SplitPair {
+    private class SplitPair {
         private Node left;
         private Node right;
     }
 
-    public static class Node {
+    public class Node {
         private final int key;
         private final int priority;
         private Node left;
         private Node right;
-        private final Updatable data;
+        private final Updatable<DATA> data;
 
-        public Node(Updatable data, int key) {
+        private Node(Updatable<DATA> data, int key) {
             this.key = key;
             this.priority = PRIORITY_GENERATOR.nextInt();
             this.data = data;
         }
 
-        Updatable getLeftUpdatable() {
+        private Updatable<DATA> getUpdatable() {
+            return data;
+        }
+
+        DATA getLeftUpdatable() {
             return getUpdatable(left);
         }
 
-        private Updatable getUpdatable(Node node) {
-            return node == null ? null : node.data;
+        DATA getRightUpdatable() {
+            return getUpdatable(right);
         }
 
-        Updatable getRightUpdatable() {
-            return getUpdatable(right);
+        private DATA getUpdatable(Node node) {
+            return node == null ? empty() : node.data.getData();
         }
     }
 
     public interface Updatable<T> {
-        void update(Updatable<T> left, Updatable<T> right);
+        void update(T left, T right);
         T getData();
-        long getFunction();
     }
 }
