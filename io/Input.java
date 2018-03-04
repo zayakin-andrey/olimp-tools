@@ -93,4 +93,12 @@ public class Input {
             out.print(anA + " ");
         }
     }
+
+    public void nextArrays(int n, int[] ... output) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < output.length; j++) {
+                output[j][i] = nextInt();
+            }
+        }
+    }
 }
