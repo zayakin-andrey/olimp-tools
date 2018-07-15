@@ -6,12 +6,12 @@ public class SumSegmentTree extends SegmentTree {
     }
 
     @Override
-    protected long defaultValue() {
+    protected int defaultValue() {
         return 0;
     }
 
     @Override
-    protected long merge(long a, long b) {
+    protected int merge(int a, int b) {
         return a + b;
     }
 }

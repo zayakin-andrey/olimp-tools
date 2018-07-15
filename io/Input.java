@@ -64,10 +64,10 @@ public class Input {
     public int[] nextIntArray(int n) {
         return nextIntArray(n, 0);
     }
-    public int[] nextDoubleArray(int n) {
-        int[] result = new int[n];
+    public double[] nextDoubleArray(int n) {
+        double[] result = new double[n];
         for (int i = 0; i < n; i++) {
-            result[i] = nextInt();
+            result[i] = nextDouble();
         }
         return result;
     }

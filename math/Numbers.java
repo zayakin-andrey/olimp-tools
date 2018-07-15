@@ -1,5 +1,6 @@
 package lib.math;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 public class Numbers {
@@ -34,5 +35,34 @@ public class Numbers {
             }
         }
         return d;
+    }
+
+    public static int[][] getBinomial(int n, int m, int modulo) {
+        int[][] result = new int[n + 1][m + 1];
+        for (int i = 0; i < n + 1; i++) {
+            result[i][0] = 1 % modulo;
+            for (int j = 1; j <= i; j++) {
+                result[i][j] = result[i - 1][j] + result[i - 1][j - 1];
+                if (result[i][j] >= modulo) {
+                    result[i][j] -= modulo;
+                }
+            }
+        }
+        return result;
+    }
+    public static BigInteger[][] getBinomial(int n, int m) {
+        BigInteger[][] result = new BigInteger[n + 1][m + 1];
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < m + 1; j++) {
+                result[i][j] = BigInteger.ZERO;
+            }
+        }
+        for (int i = 0; i < n + 1; i++) {
+            result[i][0] = BigInteger.ONE;
+            for (int j = 1; j <= i; j++) {
+                result[i][j] = result[i - 1][j].add(result[i - 1][j - 1]);
+            }
+        }
+        return result;
     }
 }

@@ -16,4 +16,8 @@ public interface Answers {
     public static void outNo(PrintWriter out) {
         out.println(NO);
     }
+
+    public static void fbCase(PrintWriter out, int caseNumber) {
+        out.print("Case #" + caseNumber + ": ");
+    }
 }
