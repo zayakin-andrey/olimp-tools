@@ -94,8 +94,8 @@ public class ArrayUtils {
         return new StringBuilder(s).reverse().toString();
     }
 
-    public static int sum(int[] cost) {
-        int result = 0;
+    public static long sum(int[] cost) {
+        long result = 0;
         for (int x : cost)
             result += x;
         return result;

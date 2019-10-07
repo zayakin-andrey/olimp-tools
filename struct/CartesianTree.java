@@ -3,7 +3,8 @@ package lib.struct;
 import java.util.Random;
 import java.util.TreeSet;
 
-public abstract class CartesianTree<DATA extends CartesianTree.Sizable> {
+public abstract class
+CartesianTree<DATA extends CartesianTree.Sizable> {
     private final static Random PRIORITY_GENERATOR = new Random(2517);
 
     private Node root;

@@ -1,5 +1,7 @@
 package lib.math;
 
+import java.math.BigInteger;
+
 /**
  * Created by hydra on 16.04.17.
  */
@@ -64,7 +66,49 @@ public class MathUtils {
         return res;
     }
 
+    public static long fastPow(long a, long n, long modulo) {
+        long res = 1 % modulo;
+        a %= modulo;
+        BigInteger bigModule = BigInteger.valueOf(modulo);
+
+        if (n < 0)
+            throw new IllegalArgumentException("power should be non negative");
+
+        for (;n > 0; n >>= 1) {
+            if ((n & 1) != 0) {
+                res = BigInteger.valueOf(res).multiply(BigInteger.valueOf(a)).mod(bigModule).longValue();
+            }
+            a = BigInteger.valueOf(a).multiply(BigInteger.valueOf(a)).mod(bigModule).longValue();
+        }
+        return res;
+    }
+
     public static int inverse(int a, int primeModulo) {
         return fastPow(a, primeModulo - 2, primeModulo);
+    }
+
+    public static boolean isPrime(int n) {
+        if (n <= 1) {
+            return false;
+        }
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int phi(int n) {
+        int result = n;
+        for (int i = 2; i * i <= n; ++i)
+            if (n % i == 0) {
+                while (n % i == 0)
+                    n /= i;
+                result -= result / i;
+            }
+        if (n > 1)
+            result -= result / n;
+        return result;
     }
 }
