@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
- * Created by hydra on 04.03.17.
+ * Created by hydra on 26.07.2020.
  */
 public abstract class GenericSegmentTree<T> {
     private final T[] func;
