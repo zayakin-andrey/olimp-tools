@@ -11,7 +11,7 @@ public class SumSegmentTree extends SegmentTree {
     }
 
     @Override
-    protected int merge(int a, int b) {
+    protected int merged(int a, int b) {
         return a + b;
     }
 }

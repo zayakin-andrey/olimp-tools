@@ -1,40 +1,54 @@
 package lib.struct;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * Created by hydra on 04.03.17.
  */
-public abstract class SegmentTree {
-    private int[] func;
-    private int size;
-    private Integer[] setValue;
-    protected abstract int defaultValue();
-    protected abstract int merged(int a, int b);
-    private int funcLength;
+public abstract class GenericSegmentTree<T> {
+    private final T[] func;
+    private final int size;
+    private final T[] setValue;
+    protected abstract T defaultValue();
+    protected abstract T merged(T a, T b);
+    protected abstract Class<T> elementClass();
+    private final int funcLength;
 
-    public SegmentTree(int n) {
+    public GenericSegmentTree(int n) {
         size = n;
-        func = new int[4 * n + 10];
-        setValue = new Integer[4 * n + 10];
+        Class<T> typeClass = elementClass();
+        func = (T[]) Array.newInstance(typeClass, 4 * n + 10);
+        T def = defaultValue();
+        Arrays.fill(func, def);
+        setValue = (T[]) Array.newInstance(typeClass, 4 * n + 10);
         funcLength = func.length;
     }
 
-    public void build(int[] initialValues) {
+    public void build(T[] initialValues) {
+        for(int i = 0; i < initialValues.length; i++) {
+            if (initialValues[i] == null) {
+                throw new IllegalStateException();
+            }
+        }
         build(0, initialValues.length - 1, 1, initialValues);
     }
 
-    public int get(int l, int r) {
+    public T get(int l, int r) {
         return get(0, size - 1, l, r, 1);
     }
 
-    public void set(int pos, int value) {
+    public void set(int pos, T value) {
+        if (value == null) throw new IllegalStateException();
         set(0, size - 1, pos, 1, value);
     }
 
-    public void setInterval(int l, int r, int value) {
+    public void setInterval(int l, int r, T value) {
+        if (value == null) throw new IllegalStateException();
         setInterval(0, size - 1, l, r, 1, value);
     }
 
-    private void setInterval(int l, int r, int lf, int rg, int u, int value) {
+    private void setInterval(int l, int r, int lf, int rg, int u, T value) {
         if (r < lf || rg < l)
             return;
 
@@ -57,7 +71,7 @@ public abstract class SegmentTree {
             return;
         }
 
-        int value = setValue[u];
+        T value = setValue[u];
         setValue[u] = null;
         int left = u << 1;
         int right = (u << 1) + 1;
@@ -71,7 +85,7 @@ public abstract class SegmentTree {
         }
     }
 
-    private void set(int l, int r, int pos, int u, int value) {
+    private void set(int l, int r, int pos, int u, T value) {
         push(u);
 
         if (l == r) {
@@ -87,7 +101,7 @@ public abstract class SegmentTree {
         }
     }
 
-    private int get(int l, int r, int lf, int rg, int u) {
+    private T get(int l, int r, int lf, int rg, int u) {
         if (r < lf || rg < l)
             return defaultValue();
 
@@ -96,13 +110,13 @@ public abstract class SegmentTree {
         if (lf <= l && r <= rg)
             return func[u];
         int m = (l + r) >> 1;
-        int f1 = get(l, m, lf, rg, u << 1);
-        int f2 = get(m + 1, r, lf, rg, (u << 1) + 1);
+        T f1 = get(l, m, lf, rg, u << 1);
+        T f2 = get(m + 1, r, lf, rg, (u << 1) + 1);
         return merged(f1, f2);
     }
 
 
-    private void build(int l, int r, int u, int[] initialValues) {
+    private void build(int l, int r, int u, T[] initialValues) {
         if (l == r) {
             func[u] = initialValues[l];
         } else {

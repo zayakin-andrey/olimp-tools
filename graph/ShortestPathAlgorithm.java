@@ -11,6 +11,21 @@ public class ShortestPathAlgorithm {
     private ShortestPathAlgorithm() {
 
     }
+    public static int[][] floyd(int[][] d) {
+        int[][] res = d.clone();
+        int n = res.length;
+        for(int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int better = d[i][k] + d[k][j];
+                    if (d[i][j] > better) {
+                        d[i][j] = better;
+                    }
+                }
+            }
+        }
+        return d;
+    }
 
     public static long[] dijkstraHeap(Graph graph, int start) {
         return dijkstraHeap(graph, new int[] {start});

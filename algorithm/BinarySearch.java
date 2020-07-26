@@ -2,7 +2,6 @@ package lib.algorithm;
 
 public class BinarySearch {
 
-
     public static long getBestIndex(InputParams inputParams,
                                     Checker checker) {
         long left = inputParams.left;
